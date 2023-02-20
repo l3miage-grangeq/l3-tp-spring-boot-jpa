@@ -53,7 +53,6 @@ public class AuthorsController {
     }
 
     @GetMapping("/authors/{id}")
-    
     public AuthorDTO author(Long id) throws EntityNotFoundException{
         Author res;
         res = authorService.get(id);
@@ -77,6 +76,7 @@ public class AuthorsController {
     }
 
     @DeleteMapping("/authors/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAuthor(Long id) {
         // unimplemented... yet!
     }
