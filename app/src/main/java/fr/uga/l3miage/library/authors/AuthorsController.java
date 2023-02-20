@@ -53,7 +53,7 @@ public class AuthorsController {
     }
 
     @GetMapping("/authors/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    
     public AuthorDTO author(Long id) throws EntityNotFoundException{
         Author res;
         res = authorService.get(id);
@@ -61,6 +61,7 @@ public class AuthorsController {
     }
 
     @PostMapping("/authors")
+    @ResponseStatus(HttpStatus.CREATED)
     public AuthorDTO newAuthor(AuthorDTO author) {
         Author res  = authorMapper.dtoToEntity(author);
         res = authorService.save(res);
