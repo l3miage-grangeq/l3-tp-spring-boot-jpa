@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,21 +51,28 @@ public class AuthorsController {
                 .toList();
     }
 
+    @GetMapping("/author/{id}")
     public AuthorDTO author(Long id) throws EntityNotFoundException{
         Author res;
         res = authorService.get(id);
         return authorMapper.entityToDTO(res);
     }
 
+    @PostMapping("/author")
     public AuthorDTO newAuthor(AuthorDTO author) {
-        return null;
+        Author res  = authorMapper.dtoToEntity(author);
+        res = authorService.save(res);
+        AuthorDTO ret = authorMapper.entityToDTO(res);
+        return ret;
     }
 
+    @PutMapping("/author/{id}")
     public AuthorDTO updateAuthor(AuthorDTO author, Long id) {
         // attention AuthorDTO.id() doit être égale à id, sinon la requête utilisateur est mauvaise
         return null;
     }
 
+    @DeleteMapping("/author/{id}")
     public void deleteAuthor(Long id) {
         // unimplemented... yet!
     }
