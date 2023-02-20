@@ -51,7 +51,7 @@ public class AuthorsController {
                 .toList();
     }
 
-    @GetMapping("/author/{id}")
+    @GetMapping("/author/{authorId}")
     public AuthorDTO author(Long id) throws EntityNotFoundException{
         Author res;
         res = authorService.get(id);
@@ -69,6 +69,7 @@ public class AuthorsController {
     @PutMapping("/author/{id}")
     public AuthorDTO updateAuthor(AuthorDTO author, Long id) {
         // attention AuthorDTO.id() doit être égale à id, sinon la requête utilisateur est mauvaise
+        
         return null;
     }
 
