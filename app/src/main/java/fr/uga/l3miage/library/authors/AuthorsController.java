@@ -4,11 +4,18 @@ import fr.uga.l3miage.data.domain.Author;
 import fr.uga.l3miage.library.books.BookDTO;
 import fr.uga.l3miage.library.books.BooksMapper;
 import fr.uga.l3miage.library.service.AuthorService;
+import fr.uga.l3miage.library.service.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -41,8 +48,10 @@ public class AuthorsController {
                 .toList();
     }
 
-    public AuthorDTO author(Long id) {
-        return null;
+    public AuthorDTO author(Long id) throws EntityNotFoundException{
+        Author res;
+        res = authorService.get(id);
+        return authorMapper.entityToDTO(res);
     }
 
     public AuthorDTO newAuthor(AuthorDTO author) {
