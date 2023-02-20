@@ -52,7 +52,7 @@ public class AuthorsController {
                 .toList();
     }
 
-    @GetMapping("/author/{id}")
+    @GetMapping("/authors/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public AuthorDTO author(Long id) throws EntityNotFoundException{
         Author res;
@@ -60,7 +60,7 @@ public class AuthorsController {
         return authorMapper.entityToDTO(res);
     }
 
-    @PostMapping("/author")
+    @PostMapping("/authors")
     public AuthorDTO newAuthor(AuthorDTO author) {
         Author res  = authorMapper.dtoToEntity(author);
         res = authorService.save(res);
@@ -68,14 +68,14 @@ public class AuthorsController {
         return ret;
     }
 
-    @PutMapping("/author/{id}")
+    @PutMapping("/authors/{id}")
     public AuthorDTO updateAuthor(AuthorDTO author, Long id) {
         // attention AuthorDTO.id() doit être égale à id, sinon la requête utilisateur est mauvaise
         
         return null;
     }
 
-    @DeleteMapping("/author/{id}")
+    @DeleteMapping("/authors/{id}")
     public void deleteAuthor(Long id) {
         // unimplemented... yet!
     }
