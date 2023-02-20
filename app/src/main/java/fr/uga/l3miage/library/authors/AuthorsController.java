@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,7 +52,8 @@ public class AuthorsController {
                 .toList();
     }
 
-    @GetMapping("/author/{authorId}")
+    @GetMapping("/author/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
     public AuthorDTO author(Long id) throws EntityNotFoundException{
         Author res;
         res = authorService.get(id);
