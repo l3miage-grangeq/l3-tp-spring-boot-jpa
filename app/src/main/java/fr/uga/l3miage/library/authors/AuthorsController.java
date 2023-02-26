@@ -69,10 +69,13 @@ public class AuthorsController {
     }
 
     @PutMapping("/authors/{id}")
-    public AuthorDTO updateAuthor(AuthorDTO author, Long id) {
+    public AuthorDTO updateAuthor(AuthorDTO author, Long id) throws EntityNotFoundException {
         // attention AuthorDTO.id() doit être égale à id, sinon la requête utilisateur est mauvaise
-        
-        return null;
+        AuthorDTO autInitDto = author(id);
+        Author autInit = authorMapper.dtoToEntity(autInitDto);
+        Author autUpdated = authorService.update(autInit);
+        AuthorDTO autResDto = authorMapper.entityToDTO(autUpdated);
+        return autResDto;
     }
 
     @DeleteMapping("/authors/{id}")
