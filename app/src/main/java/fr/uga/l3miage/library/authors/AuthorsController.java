@@ -4,6 +4,7 @@ import fr.uga.l3miage.data.domain.Author;
 import fr.uga.l3miage.library.books.BookDTO;
 import fr.uga.l3miage.library.books.BooksMapper;
 import fr.uga.l3miage.library.service.AuthorService;
+import fr.uga.l3miage.library.service.DeleteAuthorException;
 import fr.uga.l3miage.library.service.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,8 +81,8 @@ public class AuthorsController {
 
     @DeleteMapping("/authors/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAuthor(Long id) {
-        // unimplemented... yet!
+    public void deleteAuthor(Long id) throws EntityNotFoundException, DeleteAuthorException {
+        authorService.delete(id);
     }
 
     public Collection<BookDTO> books(Long authorId) {
