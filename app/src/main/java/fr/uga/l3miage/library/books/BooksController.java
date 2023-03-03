@@ -36,7 +36,7 @@ public class BooksController {
     }
     // DONE
     @GetMapping("/books")
-    public Collection<BookDTO> books(@RequestParam("q") String query) {
+    public Collection<BookDTO> books(@RequestParam(value  = "q", required = false) String query) {
         Collection<Book> books;
         if (query == null) {
             books = bookService.list();
