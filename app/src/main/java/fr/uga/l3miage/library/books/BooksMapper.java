@@ -1,8 +1,8 @@
 package fr.uga.l3miage.library.books;
 
 import fr.uga.l3miage.data.domain.Book;
-import org.mapstruct.*;
 
+import org.mapstruct.*;
 import java.util.Collection;
 
 @Mapper(componentModel = "spring")
