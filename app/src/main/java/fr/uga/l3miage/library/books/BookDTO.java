@@ -34,7 +34,6 @@ public record BookDTO(
         @DefaultValue("french")
         @Pattern(regexp = "^(french|english)$")
         String language,
-        @Size(min = 1)
         Collection<AuthorDTO> authors
 ) {
 }

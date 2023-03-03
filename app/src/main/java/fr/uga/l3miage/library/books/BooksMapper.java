@@ -1,6 +1,7 @@
 package fr.uga.l3miage.library.books;
 
 import fr.uga.l3miage.data.domain.Book;
+import jakarta.validation.Valid;
 
 import org.mapstruct.*;
 import java.util.Collection;
@@ -11,7 +12,7 @@ public interface BooksMapper {
 
     Collection<BookDTO> entityToDTO(Iterable<Book> books);
 
-    Book dtoToEntity(BookDTO book);
+    Book dtoToEntity(@Valid BookDTO book);
 
     Collection<Book> dtoToEntity(Iterable<BookDTO> books);
 

@@ -4,11 +4,9 @@ import fr.uga.l3miage.data.domain.Book;
 import fr.uga.l3miage.library.authors.AuthorDTO;
 import fr.uga.l3miage.library.service.BookService;
 import fr.uga.l3miage.library.service.EntityNotFoundException;
-import jakarta.persistence.Id;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,11 +83,12 @@ public class BooksController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/books/{id}")
     public BookDTO updateBook(@PathVariable("id") Long id, @RequestBody @Valid BookDTO book) {
+        if (!book.id().equals(id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Book bookEntity=booksMapper.dtoToEntity(book);
         try{
-            if (!book.id().equals(id)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-            }
-            Book bookEntity=booksMapper.dtoToEntity(book);
+            
             Book bookUpdated=bookService.update(bookEntity);
             return booksMapper.entityToDTO(bookUpdated);
         }catch(EntityNotFoundException e){
@@ -107,7 +106,13 @@ public class BooksController {
         }
     }
 
-    public void addAuthor(Long authorId, AuthorDTO author) {
-
+    @PutMapping("books/{id}/authors")
+    public BookDTO addAuthor(@PathVariable("id")Long bookId, @RequestBody @Valid AuthorDTO author) {
+        try{
+            Book book = bookService.addAuthor(bookId, author.id());
+            return booksMapper.entityToDTO(book);
+        }catch(EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 }
