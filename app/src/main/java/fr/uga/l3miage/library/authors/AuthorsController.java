@@ -107,8 +107,13 @@ public class AuthorsController {
     // DONE -----------------------------------------------------------
     @DeleteMapping("/authors/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAuthor(@PathVariable("id") Long id) throws EntityNotFoundException, DeleteAuthorException{
-        authorService.delete(id);
+    public void deleteAuthor(@PathVariable("id") Long id) throws EntityNotFoundException{
+        try{
+            authorService.delete(id);
+        }catch(DeleteAuthorException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        
     }
 
     // ----------------------------------------------------------------
