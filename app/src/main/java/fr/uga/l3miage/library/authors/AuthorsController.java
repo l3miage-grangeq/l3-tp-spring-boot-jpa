@@ -1,6 +1,5 @@
 package fr.uga.l3miage.library.authors;
-import java.util.Set;
-import java.util.List;
+
 import fr.uga.l3miage.data.domain.Author;
 import fr.uga.l3miage.data.domain.Book;
 import fr.uga.l3miage.library.books.BookDTO;
@@ -9,13 +8,11 @@ import fr.uga.l3miage.library.service.AuthorService;
 import fr.uga.l3miage.library.service.DeleteAuthorException;
 import fr.uga.l3miage.library.service.EntityNotFoundException;
 import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.AutoPopulatingList.ElementInstantiationException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,10 +25,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 
 import java.util.Collection;
-import java.util.Collections;
+
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")

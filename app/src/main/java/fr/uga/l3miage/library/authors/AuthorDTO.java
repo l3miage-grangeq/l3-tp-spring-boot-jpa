@@ -6,6 +6,5 @@ public record AuthorDTO(
         Long id,
         @NotBlank
         String fullName
-        
 ) {
 }

@@ -1,7 +1,9 @@
 package fr.uga.l3miage.library.books;
 
+import fr.uga.l3miage.data.domain.Author;
 import fr.uga.l3miage.data.domain.Book;
 import fr.uga.l3miage.library.authors.AuthorDTO;
+import fr.uga.l3miage.library.service.AuthorService;
 import fr.uga.l3miage.library.service.BookService;
 import fr.uga.l3miage.library.service.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -26,14 +28,17 @@ import java.util.Collection;
 @RequestMapping(value = "/api/v1", produces = "application/json")
 public class BooksController {
 
+    private final AuthorService authorService;
     private final BookService bookService;
     private final BooksMapper booksMapper;
 
     @Autowired
-    public BooksController(BookService bookService, BooksMapper booksMapper) {
+    public BooksController(BookService bookService, BooksMapper booksMapper,AuthorService authorService) {
         this.bookService = bookService;
         this.booksMapper = booksMapper;
+        this.authorService = authorService;
     }
+
     // DONE
     @GetMapping("/books")
     public Collection<BookDTO> books(@RequestParam(value  = "q", required = false) String query) {
@@ -80,20 +85,26 @@ public class BooksController {
 
     }
 
+    // problème de binding avec l'auteur
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/books/{id}")
-    public BookDTO updateBook(@PathVariable("id") Long id, @RequestBody @Valid BookDTO book) {
-        if (!book.id().equals(id)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-        Book bookEntity=booksMapper.dtoToEntity(book);
+    @PutMapping("books/{id}")
+    public BookDTO updateBook(@PathVariable("id") Long authorId, @RequestBody @Valid BookDTO book) {
         try{
-            
-            Book bookUpdated=bookService.update(bookEntity);
-            return booksMapper.entityToDTO(bookUpdated);
+            Author author = authorService.get(authorId);
+            Collection<Book> books=author.getBooks();
+            for(Book bookFinded: books){
+             if(bookFinded.getId()==book.id()){
+                 // on verifie si le livre appartient  a l'auteur avant de le modifier
+                 Book bookEntity=booksMapper.dtoToEntity(book);
+                 bookEntity.addAuthor(author);
+                 Book bookUpdated=bookService.update(bookEntity);
+                 return booksMapper.entityToDTO(bookUpdated);
+             }
+            }
         }catch(EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("books/{id}")
